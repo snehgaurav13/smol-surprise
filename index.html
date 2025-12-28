@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merry Christmas Vansh</title>
+    <style>
+        :root {
+            --pink-light: #ffe4e9;
+            --pink-dark: #ff85a1;
+            --text-color: #4a4a4a;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #a2d2ff, #ffffff);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Snowfall Effect */
+        #snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .snowflake {
+            position: absolute;
+            width: 20px;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 5px white);
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* Intro Screen */
+        #intro {
+            position: fixed;
+            inset: 0;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            transition: opacity 1s ease;
+        }
+
+        .festive-text {
+            font-size: 3rem;
+            color: var(--pink-dark);
+            animation: pulse 2s infinite;
+            text-align: center;
+        }
+
+        /* Envelope & Card Container */
+        .scene {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 350px;
+            height: 250px;
+            cursor: pointer;
+            transition: transform 0.5s;
+        }
+
+        .envelope-img {
+            width: 100%;
+            z-index: 2;
+            position: relative;
+        }
+
+        .card {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 450px;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 1;
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow-y: auto;
+            opacity: 0;
+        }
+
+        .card.open {
+            transform: translateX(-50%) translateY(-300px);
+            z-index: 5;
+            opacity: 1;
+        }
+
+        /* Card Content Styling */
+        .card-content {
+            text-align: center;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .card-h1 { color: #d63384; margin-bottom: 5px; }
+        .card-h2 { font-size: 1.2rem; margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .main-message { font-style: italic; margin: 20px 0; }
+        .footer { margin-top: 30px; font-size: 0.8rem; color: var(--pink-dark); font-weight: bold; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .hidden { opacity: 0; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+    <div id="snow-container"></div>
+
+    <div id="intro">
+        <h1 class="festive-text">Merry Christmas Vansh ❄️</h1>
+    </div>
+
+    <div class="scene">
+        <div class="envelope-wrapper" onclick="openCard()">
+            <img src="envelope.png" alt="Envelope" class="envelope-img"> <div id="mainCard" class="card">
+                <div class="card-content">
+                    <h1 class="card-h1">MERRY CHRISTMAS</h1>
+                    <h2 class="card-h2">AND HAPPY NEW YEAR!</h2>
+                    
+                    <p>Hey love.</p>
+                    <p class="main-message">I just wanted to remind you of something simple and true—you matter to me more than you probably realize. In the middle of all the chaos, you're my calm. My comfort. My favorite place to rest my heart.</p>
+                    
+                    <p>Thank you for being you—for the little things, the quiet support, the laughs, the way you show up without even trying. I'm really grateful for you, always.</p>
+                    
+                    <p>Here's to a New Year with more memories, more laughs, and more us.</p>
+                    
+                    <p><strong>Merry Christmas, my love</strong></p>
+                    <p>This card is small, but what I feel for you isn't.</p>
+                    
+                    <p>Yours,</p>
+                    <p>❤</p>
+                    
+                    <div class="footer">Made with love <3</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="snowman.mp3" type="audio/mpeg"> </audio>
+
+    <script>
+        // 1. Create Snowflakes
+        const snowContainer = document.getElementById('snow-container');
+        const snowflakeImage = 'snowflake.png'; // Replace with your snowflake.png
+
+        function createSnowflake() {
+            const flake = document.createElement('img');
+            flake.src = snowflakeImage;
+            flake.classList.add('snowflake');
+            
+            flake.style.left = Math.random() * 100 + 'vw';
+            flake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            flake.style.width = (Math.random() * 15 + 10) + 'px';
+            flake.style.opacity = Math.random();
+            
+            snowContainer.appendChild(flake);
+
+            setTimeout(() => {
+                flake.remove();
+            }, 5000);
+        }
+
+        setInterval(createSnowflake, 150);
+
+        // 2. Handle Transitions
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('intro').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('intro').classList.add('hidden');
+                }, 1000);
+            }, 2500);
+        });
+
+        // 3. Open Card & Play Music
+        let isOpen = false;
+        function openCard() {
+            if (!isOpen) {
+                const card = document.getElementById('mainCard');
+                const music = document.getElementById('bgMusic');
+                
+                card.classList.add('open');
+                music.play().catch(e => console.log("Music needs a click to play"));
+                isOpen = true;
+            }
+        }
+    </script>
+</body>
+</html>
